@@ -14,4 +14,24 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     get signup_path
     assert_select "title", full_title("Sign up")
   end
+  
+  def setup
+    @user = users(:michael)
+  end
+  
+  test "index layout links when logged in" do
+    get users_path
+    assert_redirected_to login_url
+    log_in_as @user
+    get users_path
+    assert_template 'users/index'
+    assert_select "a[href=?]", root_path
+    assert_select "a[href=?]", help_path
+    assert_select "a[href=?]", users_path
+    assert_select "a[href=?]", user_path(@user)
+    assert_select "a[href=?]", edit_user_path(@user)
+    assert_select "a[href=?]", logout_path
+  end
+  
+  
 end

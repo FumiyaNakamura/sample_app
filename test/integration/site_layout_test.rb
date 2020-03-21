@@ -33,5 +33,11 @@ class SiteLayoutTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", logout_path
   end
   
+  test "count relationships" do
+    log_in_as(@user)
+    get root_path
+    assert_select 'div.stats'
+  end
+  
   
 end
